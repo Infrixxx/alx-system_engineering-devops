@@ -1,4 +1,4 @@
 #!/bin/bash
 git add .
-git commit -m 'mandatory'
+git commit -m 'Advanced'
 git push
