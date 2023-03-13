@@ -2,3 +2,4 @@
 git add .
 git commit -m 'Shell redirections'
 git push
+ls
