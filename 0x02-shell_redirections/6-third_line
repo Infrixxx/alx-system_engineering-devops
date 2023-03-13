@@ -1,2 +1,4 @@
 #!/bin/bash
-head -n 3 iacta
+#displaying the third line and sending it to tail, to display the first last line of the first lines.
+head -3 iacta|tail -1
+
