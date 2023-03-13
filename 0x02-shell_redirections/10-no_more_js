@@ -1,2 +1,3 @@
 #!/bin/bash
-find . type f -name *.js -delete
+#find in current working directory -type f(files) -name(file name ) *.js(all js files) -delete( delete them all)
+find . -type f -name *.js -delete
