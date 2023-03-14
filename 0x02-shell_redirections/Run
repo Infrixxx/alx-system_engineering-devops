@@ -1,5 +1,5 @@
 #!/bin/bash
 git add .
-git commit -m ‘redirections’
+git commit -m ‘redirections-Advanced’
 git push
 
