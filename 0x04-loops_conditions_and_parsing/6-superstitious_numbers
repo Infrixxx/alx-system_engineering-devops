@@ -1,22 +1,14 @@
 #!/usr/bin/env bash
-#Bad luck from China, Japan and Italy
+# This script that displays  numbers from 1 to 20 and
 
-luck=1;
-while [ "$luck" -le 20 ]; do
-    case "$luck" in 
-        4) 
-            echo -e "$luck \nbad luck from China"
-            ;;
-        9)
-            echo -e "$luck \nbad luck from Japan"
-            ;;
-        17)
-            echo -e "$luck \nbad luck from Italy"
-            ;;
-        *)
-            echo "$luck"
-            ;;
-
+i=1
+while ((i <= 20))
+do
+    echo $i
+    case $i in
+		4)	echo "bad luck from China";;
+		9)	echo "bad luck from Japan";;
+		17)	echo "bad luck from Italy";;
     esac
-    luck=$((luck +1));
+    ((i++))
 done
