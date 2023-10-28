@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-# write "I am alive!" indefinetly
+# Indefinitely writes I am alive! to the file /tmp/my_process
 
-# echo "$1" "$2"
-
-while true; do
-    echo "I am alive!" >> "/tmp/my_process";
-    sleep 2;
+while true
+do
+	sudo bash -c 'echo "I am alive!" >> /tmp/my_process'
+	sleep 2
 done
