@@ -3,14 +3,19 @@ package { 'python3.8.10':  # Specify exact Python version
   before => Package['python3-pip'],  # Install Python before pip3
 }
 
-package { 'Flask2.1.0':
+package { 'python3-pip':
+  ensure => present,
+  before => Package['Flask'],
+}
+
+package { 'Flask':
   ensure          => '2.1.0',
   provider        => 'pip3',
   install_options => ['--upgrade'],
   require         => Package['python3-pip'],
 }
 
-package { 'Werkzeug2.1.1':
+package { 'Werkzeug':
   ensure          => '2.1.1',
   provider        => 'pip3',
   install_options => ['--upgrade'],
