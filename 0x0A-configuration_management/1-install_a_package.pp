@@ -1,23 +1,25 @@
-package { 'python3.8.10':  # Specify exact Python version
-  ensure => present,
-  before => Package['python3-pip'],  # Install Python before pip3
+# Installs flask and required packages
+
+# Install Python 3.8.10
+package { 'python3.8':
+  ensure => '3.8.10',
 }
 
+# Install pip
 package { 'python3-pip':
   ensure => present,
-  before => Package['Flask'],
 }
 
-package { 'Flask':
-  ensure          => '2.1.0',
-  provider        => 'pip3',
-  install_options => ['--upgrade'],
-  require         => Package['python3-pip'],
+# Install Flask 2.1.0
+package { 'flask':
+  ensure   => '2.1.0',
+  provider => 'pip',
+  require  => Package['python3-pip'],
 }
 
-package { 'Werkzeug':
-  ensure          => '2.1.1',
-  provider        => 'pip3',
-  install_options => ['--upgrade'],
-  require         => Package['python3-pip'],
+# Install Werkzeug 2.1.1
+package { 'werkzeug':
+  ensure   => '2.1.1',
+  provider => 'pip',
+  require  => Package['python3-pip'],
 }
