@@ -1,15 +1,7 @@
 #!/usr/bin/env bash
-# Displays all acive IPv4 addresses on the machine.
-
-!/usr/bin/env bash
 
 # Displays all active IPv4 IPs on the machine
 
-# Use 'ip addr' to list interfaces and addresses
 ip addr show | \
-
-# Filter for IPv4 addresses (inet) and extract IPs
 awk '/inet / {print $2}' | \
-
-# Remove any trailing subnet mask information
 cut -d/ -f1
