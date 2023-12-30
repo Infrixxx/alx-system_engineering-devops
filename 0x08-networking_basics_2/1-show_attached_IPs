@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Displays all active IPv4 IPs on the machine
 
 ip addr show | \
