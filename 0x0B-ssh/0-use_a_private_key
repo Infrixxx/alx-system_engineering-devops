@@ -1,8 +1,4 @@
-#!/bin/bash
-
-# Specify the server address and private key file path
-server_address="8.8.8.8"  # Replace with your actual server address
-private_key_file="$HOME/.ssh/school"
-
-# Use ssh with appropriate flags for user and identity file
-ssh -i "$private_key_file" "$server_address"
+#!/usr/bin/env bash
+# connect to your server using the private key ~/.ssh/school
+# echo "SSH Public key" >> ~/.ssh/authorized_keys
+ssh -i ~/.ssh/school ubuntu@44.192.38.3
