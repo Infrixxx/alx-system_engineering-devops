@@ -1,16 +1,6 @@
-#!/bin/bash
-
-# Update the package lists
-apt-get update
-
-# Install nginx
-apt-get -y install nginx
-
-# Create a default index.html file with 'Hello World!'
-echo "Hello World!" > /usr/share/nginx/html/index.html
-
-# Ensure nginx is listening on port 80 by modifying the default configuration
-sed -i 's/listen\ \[::\]:80 default_server;/listen 80 default_server;/' /etc/nginx/sites-available/default
-
-# Restart nginx
-kill -s HUP $(cat /var/run/nginx.pid)
+#!/usr/bin/env bash
+# Bash script that Install nginx on your web-01 server and requirements
+apt-get update -y
+apt-get install nginx -y
+echo "Hello World!" > /var/www/html/index.html
+service nginx start
