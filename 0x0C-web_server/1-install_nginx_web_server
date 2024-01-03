@@ -1,7 +1,16 @@
-#!/usr/bin/env bash
-# Installs Nginx
+#!/bin/bash
 
+# Update the package lists
 apt-get update
-apt-get install -y nginx
-echo "Holberton School" > /var/www/html/index.html
-service nginx start
+
+# Install nginx
+apt-get -y install nginx
+
+# Create a default index.html file with 'Hello World!'
+echo "Hello World!" > /usr/share/nginx/html/index.html
+
+# Ensure nginx is listening on port 80 by modifying the default configuration
+sed -i 's/listen\ \[::\]:80 default_server;/listen 80 default_server;/' /etc/nginx/sites-available/default
+
+# Restart nginx
+kill -s HUP $(cat /var/run/nginx.pid)
