@@ -1,14 +1,29 @@
 #!/usr/bin/env bash
 # Install Nginx on web server and configure it to return 'Hello World!' at the root
 
+# Update package lists
 sudo apt-get -y update
+
+# Install Nginx
 sudo apt-get -y install nginx
 
 # Allow Nginx traffic through the firewall
 sudo ufw allow 'Nginx HTTP'
 
 # Create 'Hello World!' content in the default Nginx root directory
-echo 'Hello World!' | sudo tee /var/www/html/index.html > /dev/null
+sudo bash -c 'echo "Hello World!" > /var/www/html/index.html'
 
 # Start Nginx service
 sudo service nginx start
+
+# Sleep for a moment to ensure Nginx has started before checking
+sleep 2
+
+# Check if Nginx is running and serving 'Hello World!' at the root
+nginx_status=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/)
+content=$(curl -s http://localhost/)
+
+# Output the HTTP status and the content for verification
+echo "HTTP Status Code: $nginx_status"
+echo "Content at root: $content"
+
