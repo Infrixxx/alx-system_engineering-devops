@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Install nginx on web server; Nginx should be listening on port 80
-# redirects to another page
+# Redirects to another page
 # Have a custom 404 page
 
 ADD301_REDIRECT="\\\tlocation /redirect_me {\n\t\t return 301 https://google.com;\n\t}\n"
@@ -12,9 +12,22 @@ sudo apt-get -y install nginx
 sudo service nginx start
 
 echo "Hello World!" | sudo tee /usr/share/nginx/html/index.html
-sudo sed -i "30i $ADD301_REDIRECT" /etc/nginx/sites-available/default #add at line 30
 
+# Add redirect configuration at line 30 in the default Nginx configuration
+sudo sed -i "30i $ADD301_REDIRECT" /etc/nginx/sites-available/default
+
+# Create custom_404.html content in the default Nginx root directory
 echo "Ceci n'est pas une page" | sudo tee /usr/share/nginx/html/custom_404.html
-sudo sed -i "s@$PATTERN@$ADD404_NOTFOUND@" /etc/nginx/sites-available/default #uncomment and replace
 
+# Uncomment and replace the error page configuration with custom_404.html
+sudo sed -i "s@$PATTERN@$ADD404_NOTFOUND@" /etc/nginx/sites-available/default
+
+# Restart Nginx service to apply the changes
 sudo service nginx restart
+
+# Verify the presence of custom_404.html and check if it returns 404 status
+content=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/custom_404.html)
+
+# Output the HTTP status code for verification
+echo "HTTP Status Code for custom_404.html: $content"
+
