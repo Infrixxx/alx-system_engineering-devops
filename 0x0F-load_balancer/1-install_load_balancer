@@ -1,60 +1,32 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Create a script to install and configure HAProxy on lb-01 server
+# Configure HAProxy to send traffic to web-01 and web-02 servers
+# Distribute requests using a roundrobin algorithm
+# Make sure that HAProxy can be managed via an init script
 
-# Check for root privilege
-if [[ $EUID -ne 0 ]]; then
-    echo "This script must be run as root."
-    exit 1
-fi
+# Install and configure HAproxy on my lb-01 server.
+sudo apt-get -y update
+apt-get -y install haproxy
 
-# Update package repositories
-apt update
-
-# Install HAProxy
-apt install -y haproxy
-
-# Check if haproxy.cfg exists before appending
-haproxy_cfg="/etc/haproxy/haproxy.cfg"
-if [[ ! -f "$haproxy_cfg" ]]; then
-    echo "File $haproxy_cfg does not exist. Creating a new file."
-    echo "" | tee "$haproxy_cfg" >/dev/null
-fi
-
-# Replace [STUDENT_ID] with your student ID or appropriate identifier
-STUDENT_ID="338946"
-
-# Configuration content
-server_config="
-frontend infrixxx_frontend
-    bind *:80
-    mode http
-    default_backend infrixxx_backend
-
-backend infrixxx_backend
-    balance roundrobin
-    server web-01 ${STUDENT_ID}-web-01:80 check
-    server web-02 ${STUDENT_ID}-web-02:80 check
+# edit config file
+server_config=\
 "
+frontend  infrixxx_frontend
+        bind *:80
+        mode http
+        default_backend infrixxx_backend
+backend infrixxx_backend
+        balance roundrobin
+        server 338946-web-01 54.236.43.143:80 check
+        server 338946-web-02 54.160.124.186:80 check
+"
+echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
 
-# Append configuration to haproxy.cfg
-echo "$server_config" | tee -a "$haproxy_cfg" >/dev/null
+# enable haproxy to be started by init script
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 
-# Enable HAProxy to be started by init script
-echo "ENABLED=1" | tee -a /etc/default/haproxy >/dev/null
+# Testing the HAproxy configuration file
+sudo haproxy -c -f /etc/haproxy/haproxy.cfg
 
-# Test HAProxy configuration
-if haproxy -c -f "$haproxy_cfg"; then
-    echo "HAProxy configuration test successful."
-else
-    echo "Error: HAProxy configuration test failed."
-    exit 1
-fi
-
-# Restart HAProxy service
-if systemctl restart haproxy; then
-    echo "HAProxy service restarted successfully."
-else
-    echo "Error: Failed to restart HAProxy service."
-    exit 1
-fi
-
-exit 0
+# Restart the Nginx service
+sudo service haproxy restart
