@@ -1,0 +1,29 @@
+# Install Nginx package
+package { 'nginx':
+  ensure => installed,
+}
+
+# Define custom HTTP header settings
+file { '/etc/nginx/sites-available/default':
+  content => "
+    server {
+      listen 80 default_server;
+      listen [::]:80 default_server;
+
+      server_name _;
+
+      location / {
+        add_header X-Served-By $::hostname;
+        # Other configurations...
+      }
+    }
+  ",
+  notify  => Service['nginx'],
+}
+
+# Restart Nginx service after making changes
+service { 'nginx':
+  ensure  => running,
+  enable  => true,
+  require => File['/etc/nginx/sites-available/default'],
+}
