@@ -35,7 +35,11 @@ defaults
 
 frontend infrixxx_frontend
     bind *:80
-    bind *:443 ssl crt /etc/letsencrypt/live/www.infrixxx.tech/fullchain.pem
+    mode http
+    default_backend infrixxx_backend
+
+frontend infrixxx_https_frontend
+    bind *:443 ssl crt /etc/letsencrypt/live/www.infrixxx.tech/www.infrixxx.pem
     mode http
     default_backend infrixxx_backend
 
