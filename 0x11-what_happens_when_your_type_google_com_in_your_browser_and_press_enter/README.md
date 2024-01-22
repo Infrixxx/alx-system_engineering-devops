@@ -1,4 +1,4 @@
- ** #What Happens When You Type 'Google.com'?**
+ **#What Happens When You Type 'Google.com'?**
 
 **Exploring the Infrastructure Behind a Simple Web Request**
 
