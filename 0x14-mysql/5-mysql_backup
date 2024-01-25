@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+# MySQL backup script
+
+# Check if the correct number of arguments is provided
+if [ "$#" -ne 0 ]; then
+    echo "Usage: $0"
+    exit 1
+fi
+
+# MySQL user (assuming root with no password)
+MYSQL_USER="root"
+
+# Directory to store backups
+BACKUP_DIR="/path/to/backup/directory"
+
+# Create a timestamp for the backup file
+TIMESTAMP=$(date +'%d-%m-%Y')
+
+# MySQL dump command
+mysqldump -u"$MYSQL_USER" --all-databases > "$BACKUP_DIR/backup.sql"
+
+# Check if mysqldump was successful
+if [ $? -ne 0 ]; then
+    echo "MySQL dump failed. Exiting."
+    exit 1
+fi
+
+# Create a tar-gzipped archive
+tar -czvf "$BACKUP_DIR/$TIMESTAMP.tar.gz" -C "$BACKUP_DIR" backup.sql
+
+# Check if tar was successful
+if [ $? -ne 0 ]; then
+    echo "Creating archive failed. Exiting."
+    exit 1
+fi
+
+# Cleanup: remove the temporary MySQL dump
+rm "$BACKUP_DIR/backup.sql"
+
+echo "Backup completed successfully."
+
