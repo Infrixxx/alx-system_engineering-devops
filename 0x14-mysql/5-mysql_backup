@@ -1,16 +1,6 @@
 #!/usr/bin/env bash
 # MySQL backup script
 
-# Check if the correct number of arguments is provided
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <mysql_password>"
-    exit 1
-fi
-
-# MySQL user (assuming root with no password)
-MYSQL_USER="root"
-MYSQL_PASSWORD="$1"
-
 # Directory to store backups (replace /path/to/backup/directory with the actual path)
 BACKUP_DIR="/path/to/backup/directory"
 
@@ -20,8 +10,8 @@ mkdir -p "$BACKUP_DIR"
 # Create a timestamp for the backup file
 TIMESTAMP=$(date +'%d-%m-%Y')
 
-# MySQL dump command
-mysqldump -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" --all-databases > "$BACKUP_DIR/backup.sql"
+# MySQL dump command (no password)
+mysqldump --all-databases > "$BACKUP_DIR/backup.sql"
 
 # Check if mysqldump was successful
 if [ $? -ne 0 ]; then
